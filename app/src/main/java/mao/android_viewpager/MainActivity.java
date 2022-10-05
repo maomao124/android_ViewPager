@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,8 @@ import mao.android_viewpager.entity.ViewPagerInfo;
 
 public class MainActivity extends AppCompatActivity
 {
+
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -36,5 +40,39 @@ public class MainActivity extends AppCompatActivity
 
         viewPager.setAdapter(viewPagerAdapter);
 
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
+        {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+            {
+                Log.d(TAG, "onPageScrolled: " + position);
+                //toastShow("页面滑动中：" + (position + 1));
+            }
+
+            @Override
+            public void onPageSelected(int position)
+            {
+                Log.d(TAG, "onPageSelected: " + position);
+                toastShow("页面滑动结束：" + (position + 1));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state)
+            {
+                Log.d(TAG, "onPageScrollStateChanged: " + state);
+                toastShow("页面滑动状态变化：" + state);
+            }
+        });
+
+    }
+
+    /**
+     * 显示消息
+     *
+     * @param message 消息
+     */
+    private void toastShow(String message)
+    {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
